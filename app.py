@@ -3,7 +3,6 @@ from PIL import Image
 import torch
 from diffusers import StableDiffusionImg2ImgPipeline
 import io
-
 # ============ CUSTOMIZE THESE ============
 APP_TITLE = "🎨 CharacterSync AI"
 APP_DESCRIPTION = "Generate consistent character variations in your favorite style"
