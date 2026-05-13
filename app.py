@@ -1,10 +1,4 @@
 import streamlit as st
-
-st.set_page_config(
-    page_title="CharacterSync AI",
-    layout="wide",
-    initial_sidebar_state="collapsed"  # Collapse sidebar on mobile
-)
 from PIL import Image
 import torch
 from diffusers import StableDiffusionImg2ImgPipeline
