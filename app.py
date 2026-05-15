@@ -179,4 +179,4 @@ st.markdown("""
 - Realistic: `a beautiful character, realistic digital art, full body, professional`
 """)
 
-st.caption("Made with ❤️ | Powered by Stable Diffusion | Built with Streamlit")
+st.caption("Made with ❤️ | Powered by Stable Diffusion | Built by KIRAN AJITH")
