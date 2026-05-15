@@ -1,8 +1,8 @@
-torch==2.9.0
-torchvision==0.25.0
-torchaudio==2.9.0
-diffusers==0.30.0
-transformers==4.40.0
-pillow==10.1.0
-accelerate==0.27.0
-streamlit==1.31.0
+torch
+torchvision
+torchaudio
+diffusers
+transformers
+pillow
+accelerate
+streamlit
