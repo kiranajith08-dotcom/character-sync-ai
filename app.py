@@ -5,111 +5,145 @@ from diffusers import StableDiffusionImg2ImgPipeline
 import io
 import zipfile
 
-# ============ CUSTOMIZE THESE ============
-APP_TITLE = "🎨 CharacterSync AI with unlimited generation"
-APP_DESCRIPTION = "Generate consistent character variations in your favorite style"
-DEFAULT_PROMPT = "a character, anime style, full body"
-DEFAULT_NEGATIVE = "blurry, low quality, deformed, bad anatomy"
-# ========================================
+# ============ CONFIGURATION ============
+APP_TITLE = "🚀 CHARACTER SYNC: NEON EDITION"
+APP_DESCRIPTION = "Generate consistent character variations in a futuristic 3D workspace."
 
-# Page setup
+# 1. PAGE SETUP (Must be the first Streamlit command)
 st.set_page_config(
-    page_title=APP_TITLE,
+    page_title="CharacterSync AI",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# --- BOT LOGIC ---
+# 2. FUTURISTIC 3D UI CSS
+st.markdown("""
+<style>
+    /* Global Background */
+    .stApp {
+        background: radial-gradient(circle at top right, #0a1128, #000000);
+        color: #e0e0e0;
+    }
+
+    /* Glassmorphism Sidebar */
+    [data-testid="stSidebar"] {
+        background: rgba(255, 255, 255, 0.02) !important;
+        backdrop-filter: blur(15px);
+        border-right: 1px solid rgba(0, 242, 255, 0.2);
+    }
+
+    /* 3D Floating Containers */
+    div[data-testid="stImage"], .stDownloadButton > button, div.stButton > button, .stFileUploader {
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 20px !important;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5) !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        padding: 10px;
+    }
+
+    /* Hover 3D Pop & Glow */
+    div[data-testid="stImage"]:hover, div.stButton > button:hover {
+        transform: translateY(-8px) rotateX(2deg) rotateY(2deg) !important;
+        border: 1px solid #00f2ff !important;
+        box-shadow: 0 20px 50px rgba(0, 242, 255, 0.3) !important;
+    }
+
+    /* Neon Buttons */
+    div.stButton > button {
+        background: linear-gradient(135deg, #00f2ff 0%, #0072ff 100%) !important;
+        color: white !important;
+        font-weight: 800 !important;
+        letter-spacing: 1px;
+        border: none !important;
+    }
+
+    /* Futuristic Inputs */
+    .stTextInput input {
+        background: rgba(0, 0, 0, 0.4) !important;
+        color: #00f2ff !important;
+        border: 1px solid rgba(0, 242, 255, 0.2) !important;
+        border-radius: 10px !important;
+    }
+
+    /* Title Styling */
+    h1 {
+        text-shadow: 0 0 20px #00f2ff;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+    }
+
+    /* Chatbot Bubbles */
+    [data-testid="stChatMessage"] {
+        background: rgba(0, 242, 255, 0.05) !important;
+        border-radius: 15px !important;
+        border: 1px solid rgba(0, 242, 255, 0.1) !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# 3. CHATBOT LOGIC
 def get_bot_response(user_input):
     user_input = user_input.lower()
     if "prompt" in user_input:
-        return "Be specific! Add details like 'cyberpunk', 'watercolor', or 'cinematic lighting' for better results."
+        return "TRY THIS: 'Futuristic warrior, high-tech armor, neon glowing highlights, 8k resolution'."
     elif "strength" in user_input:
-        return "Strength (0.5-0.95) determines how much the AI changes the original. 0.95 is a big change; 0.5 is a small tweak."
-    elif "quality" in user_input or "steps" in user_input:
-        return "Higher steps (50) look better but take longer. 20-30 is usually the sweet spot for speed."
-    elif "hello" in user_input or "hi" in user_input:
-        return "Hello! I'm your helper. Ask me about prompts or settings!"
-    else:
-        return "I can help with settings or prompt ideas! Try asking: 'How does strength work?' or 'Give me a prompt tip'."
+        return "STRENGTH TIP: 0.75 is the sweet spot. Lower (0.5) keeps the original shape; Higher (0.9) reinvents the character."
+    elif "slow" in user_input or "quality" in user_input:
+        return "QUALITY: Increase 'Steps' to 50 for a polished look. Decrease to 20 for speed."
+    return "I am your system interface. How can I assist with your generation today?"
 
-# Title
+# --- SIDEBAR ---
+st.sidebar.title("🛠️ CONTROL CENTER")
+num_images = st.sidebar.slider("Variations", 1, 10, 3)
+strength = st.sidebar.slider("Consistency Strength", 0.5, 0.95, 0.75, 0.05)
+steps = st.sidebar.slider("Processing Steps", 20, 50, 30, 5)
+guidance = st.sidebar.slider("Prompt Strictness", 5.0, 15.0, 7.5, 0.5)
+
+# --- SIDEBAR CHATBOT ---
+st.sidebar.markdown("---")
+st.sidebar.subheader("💬 SYSTEM ASSISTANT")
+if "messages" not in st.session_state:
+    st.session_state.messages = [{"role": "assistant", "content": "Interface Initialized. Awaiting input..."}]
+
+for msg in st.session_state.messages:
+    with st.sidebar.chat_message(msg["role"]):
+        st.markdown(msg["content"])
+
+if chat_query := st.sidebar.chat_input("Ask for tips..."):
+    st.session_state.messages.append({"role": "user", "content": chat_query})
+    with st.sidebar.chat_message("user"):
+        st.markdown(chat_query)
+    
+    bot_res = get_bot_response(chat_query)
+    st.session_state.messages.append({"role": "assistant", "content": bot_res})
+    with st.sidebar.chat_message("assistant"):
+        st.markdown(bot_res)
+
+# --- MAIN INTERFACE ---
 st.title(APP_TITLE)
 st.write(APP_DESCRIPTION)
 
-# Sidebar settings
-st.sidebar.header("⚙️ Generation Settings")
-num_images = st.sidebar.slider("How many variations?", 1, 10, 3)
-strength = st.sidebar.slider("Keep original style (higher = more consistent)", 0.5, 0.95, 0.75, step=0.05)
-steps = st.sidebar.slider("Quality (higher = better but slower)", 20, 50, 30, step=5)
-guidance = st.sidebar.slider("How strictly follow prompt", 5.0, 15.0, 7.5, step=0.5)
-
-# --- CHATBOT UI IN SIDEBAR ---
-st.sidebar.markdown("---")
-st.sidebar.subheader("💬 AI Assistant")
-
-if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "assistant", "content": "How can I help you generate characters today?"}]
-
-# Display chat history in sidebar
-for message in st.session_state.messages:
-    with st.sidebar.chat_message(message["role"]):
-        st.markdown(message["content"])
-
-# Chat input
-if chat_query := st.sidebar.chat_input("Ask a question..."):
-    with st.sidebar.chat_message("user"):
-        st.markdown(chat_query)
-    st.session_state.messages.append({"role": "user", "content": chat_query})
-
-    bot_res = get_bot_response(chat_query)
-    with st.sidebar.chat_message("assistant"):
-        st.markdown(bot_res)
-    st.session_state.messages.append({"role": "assistant", "content": bot_res})
-
-
-# Main content
-st.subheader("1️⃣ Upload Reference Image")
-st.write("Upload a character or art style you like. The AI will generate variations in that same style.")
-
-uploaded_file = st.file_uploader("Choose an image (JPG or PNG)", type=["jpg", "jpeg", "png"])
+st.subheader("1️⃣ TARGET DATA UPLOAD")
+uploaded_file = st.file_uploader("Upload Reference Character", type=["jpg", "jpeg", "png"])
 
 if uploaded_file:
-    # Show uploaded image
     ref_image = Image.open(uploaded_file).convert("RGB")
     ref_image_resized = ref_image.resize((512, 512))
     
     col1, col2 = st.columns(2)
     with col1:
-        st.image(ref_image, caption="Your uploaded image")
-    
+        st.image(ref_image, caption="Base Reference")
     with col2:
-        st.success("✅ Image loaded successfully!")
-        st.info("👇 Customize the settings on the left, then click 'Generate'")
-    
-    # Prompts
-    st.subheader("2️⃣ Customize Your Prompt")
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        prompt = st.text_input(
-            "What kind of character?",
-            value=DEFAULT_PROMPT,
-            help="Be specific: 'a warrior', 'a cute cat girl', 'a cyberpunk assassin', etc."
-        )
-    
-    with col2:
-        negative_prompt = st.text_input(
-            "What to AVOID? (optional)",
-            value=DEFAULT_NEGATIVE,
-            help="Things the AI should NOT generate"
-        )
-    
-    # Generate button
-    st.subheader("3️⃣ Generate")
-    
-    if st.button("🚀 Generate Images", key="generate", use_container_width=True):
-        st.info(f"⏳ Generating {num_images} image(s)... Please wait...")
+        st.success("🛰️ Signal Locked: Image Loaded")
+        prompt = st.text_input("MODIFICATION PROMPT", value="a character, anime style, full body")
+        negative_prompt = st.text_input("EXCLUDE FROM DATA", value="blurry, low quality, deformed")
+
+    st.subheader("2️⃣ EXECUTE GENERATION")
+    if st.button("🚀 INITIATE SYNC", use_container_width=True):
+        st.info("🧬 Processing neural layers... please wait.")
         
         @st.cache_resource
         def load_model():
@@ -121,69 +155,36 @@ if uploaded_file:
             return pipe.to("cuda")
         
         pipe = load_model()
-        
         generated_images = []
-        progress_bar = st.progress(0)
-        status_text = st.empty()
         
+        # Generation Loop
         for i in range(num_images):
-            status_text.text(f"⏳ Generating image {i+1}/{num_images}...")
-            try:
-                with torch.no_grad():
-                    output = pipe(
-                        prompt=prompt,
-                        negative_prompt=negative_prompt,
-                        image=ref_image_resized,
-                        strength=strength,
-                        guidance_scale=guidance,
-                        num_inference_steps=steps,
-                        generator=torch.Generator(device="cuda").manual_seed(i)
-                    )
+            with torch.no_grad():
+                output = pipe(
+                    prompt=prompt,
+                    negative_prompt=negative_prompt,
+                    image=ref_image_resized,
+                    strength=strength,
+                    guidance_scale=guidance,
+                    num_inference_steps=steps,
+                    generator=torch.Generator(device="cuda").manual_seed(i)
+                )
                 generated_images.append(output.images[0])
-                progress_bar.progress((i + 1) / num_images)
-            except Exception as e:
-                st.error(f"Error generating image {i+1}: {str(e)}")
-                continue
         
-        progress_bar.empty()
-        status_text.empty()
-        
-        if generated_images:
-            st.success(f"✅ Successfully generated {len(generated_images)} image(s)!")
-            st.subheader("4️⃣ Your Generated Images")
-            
-            cols = st.columns(3)
+        # Results Display
+        st.subheader("3️⃣ OUTPUTS GENERATED")
+        cols = st.columns(3)
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, 'w') as zip_file:
             for idx, img in enumerate(generated_images):
                 with cols[idx % 3]:
                     st.image(img, caption=f"Variation {idx+1}")
                     img_byte_arr = io.BytesIO()
                     img.save(img_byte_arr, format='PNG')
-                    img_byte_arr.seek(0)
-                    st.download_button(
-                        label=f"⬇️ Download {idx+1}",
-                        data=img_byte_arr,
-                        file_name=f"character_{idx+1}.png",
-                        mime="image/png",
-                        key=f"download_{idx}",
-                        use_container_width=True
-                    )
-            
-            # Batch download
-            zip_buffer = io.BytesIO()
-            with zipfile.ZipFile(zip_buffer, 'w') as zip_file:
-                for idx, img in enumerate(generated_images):
-                    img_byte_arr = io.BytesIO()
-                    img.save(img_byte_arr, format='PNG')
-                    zip_file.writestr(f"character_{idx+1}.png", img_byte_arr.getvalue())
-            
-            st.download_button(
-                label="📥 Download All as ZIP",
-                data=zip_buffer.getvalue(),
-                file_name="characters.zip",
-                mime="application/zip",
-                use_container_width=True
-            )
+                    zip_file.writestr(f"char_{idx+1}.png", img_byte_arr.getvalue())
+                    st.download_button(f"⬇️ SAVE {idx+1}", data=img_byte_arr.getvalue(), file_name=f"char_{idx+1}.png", mime="image/png")
+        
+        st.download_button("📥 DOWNLOAD BATCH (ZIP)", data=zip_buffer.getvalue(), file_name="output_sync.zip", use_container_width=True)
 
-# Footer
 st.markdown("---")
-st.caption("Made with ❤️ | Powered by Stable Diffusion | Built by Kiran Ajith")
+st.caption("NEURAL SYNC INTERFACE v3.0 | POWERED BY STABLE DIFFUSION - Created by KIRAN AJITH")
