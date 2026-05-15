@@ -5,7 +5,7 @@ from diffusers import StableDiffusionImg2ImgPipeline
 import io
 
 # ============ CUSTOMIZE THESE ============
-APP_TITLE = "🎨 CharacterSync AI"
+APP_TITLE = "🎨 CharacterSync AI with unlimited generation"
 APP_DESCRIPTION = "Generate consistent character variations in your favorite style"
 DEFAULT_PROMPT = "a character, anime style, full body"
 DEFAULT_NEGATIVE = "blurry, low quality, deformed, bad anatomy"
@@ -180,4 +180,4 @@ st.markdown("""
 - Realistic: `a beautiful character, realistic digital art, full body, professional`
 """)
 
-st.caption("Made with ❤️ | Powered by Stable Diffusion | Built with Streamlit")
+st.caption("Made with ❤️ | Powered by Stable Diffusion | Built by Kiran Ajith")
