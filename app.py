@@ -4,7 +4,7 @@ import torch
 from diffusers import StableDiffusionImg2ImgPipeline
 import io
 # ============ CUSTOMIZE THESE ============
-APP_TITLE = "🎨 CharacterSync AI"
+APP_TITLE = "🎨 CharacterSync AI for Unlimited generation"
 APP_DESCRIPTION = "Generate consistent character variations in your favorite style"
 DEFAULT_PROMPT = "a character, anime style, full body"
 DEFAULT_NEGATIVE = "blurry, low quality, deformed, bad anatomy"
