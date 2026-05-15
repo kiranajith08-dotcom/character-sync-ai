@@ -3,8 +3,9 @@ from PIL import Image
 import torch
 from diffusers import StableDiffusionImg2ImgPipeline
 import io
+
 # ============ CUSTOMIZE THESE ============
-APP_TITLE = "🎨 CharacterSync AI for Unlimited generation"
+APP_TITLE = "🎨 CharacterSync AI UNLIMITED GENERATION"
 APP_DESCRIPTION = "Generate consistent character variations in your favorite style"
 DEFAULT_PROMPT = "a character, anime style, full body"
 DEFAULT_NEGATIVE = "blurry, low quality, deformed, bad anatomy"
@@ -41,7 +42,7 @@ if uploaded_file:
     
     col1, col2 = st.columns(2)
     with col1:
-        st.image(ref_image, caption="Your uploaded image", use_column_width=True)
+        st.image(ref_image, caption="Your uploaded image")
     
     with col2:
         st.success("✅ Image loaded successfully!")
@@ -124,7 +125,7 @@ if uploaded_file:
             
             for idx, img in enumerate(generated_images):
                 with cols[idx % 3]:
-                    st.image(img, caption=f"Variation {idx+1}", use_column_width=True)
+                    st.image(img, caption=f"Variation {idx+1}")
                     
                     # Download button
                     img_byte_arr = io.BytesIO()
@@ -179,4 +180,4 @@ st.markdown("""
 - Realistic: `a beautiful character, realistic digital art, full body, professional`
 """)
 
-st.caption("Made with ❤️ | Powered by Stable Diffusion | Built by KIRAN AJITH")
+st.caption("Made with ❤️ | Powered by Stable Diffusion | Built BY KIRAN AJITH")
