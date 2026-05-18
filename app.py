@@ -6,7 +6,7 @@ import io
 import zipfile
 
 # ============ CONFIGURATION ============
-APP_TITLE = "🚀 CHARACTER SYNC: NEON EDITION"
+APP_TITLE = "🚀 CHARACTER SYNC: NEON EDITION UNLIMITED"
 APP_DESCRIPTION = "Generate consistent character variations in a futuristic 3D workspace."
 
 # 1. PAGE SETUP (Must be the first Streamlit command)
