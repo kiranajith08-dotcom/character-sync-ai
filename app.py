@@ -185,19 +185,15 @@ if uploaded_file:
                     st.download_button(f"⬇️ SAVE {idx+1}", data=img_byte_arr.getvalue(), file_name=f"char_{idx+1}.png", mime="image/png")
         
         st.download_button("📥 DOWNLOAD BATCH (ZIP)", data=zip_buffer.getvalue(), file_name="output_sync.zip", use_container_width=True)
-st.caption("⭐ Key Features
+st.caption(" Key Features
 Create Custom Characters  
 Build unique AI personalities with custom traits, backstories, moods, and communication styles.
-
 Real-Time Personality Sync  
 Your character adapts instantly — changing tone, emotions, and responses based on your prompts.
-
 Voice & Expression Engine  
 Experience natural, expressive conversations with lifelike AI voices and dynamic emotional responses.
-
 Multi-Character Worlds  
 Create entire universes where your characters can interact with each other in synced dialogues.
-
 Story & Roleplay Mode  
 Dive into immersive storytelling, roleplay")
 
