@@ -124,7 +124,6 @@ if chat_query := st.sidebar.chat_input("Ask for tips..."):
 
 # --- MAIN INTERFACE ---
 st.title("this is a sample model of character sync ai done by me")
-st.write(app_description)
 
 st.subheader("1️⃣ TARGET DATA UPLOAD")
 uploaded_file = st.file_uploader("Upload Reference Character", type=["jpg", "jpeg", "png"])
