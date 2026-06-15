@@ -123,8 +123,22 @@ if chat_query := st.sidebar.chat_input("Ask for tips..."):
         st.markdown(bot_res)
 
 # --- MAIN INTERFACE ---
-st.title(APP_TITLE)
-st.write(APP_DESCRIPTION)
+st.title("this is a sample model of character sync ai done by me")
+st.write(⭐ Key Features
+Create Custom Characters  
+Build unique AI personalities with custom traits, backstories, moods, and communication styles.
+
+Real-Time Personality Sync  
+Your character adapts instantly — changing tone, emotions, and responses based on your prompts.
+
+Voice & Expression Engine  
+Experience natural, expressive conversations with lifelike AI voices and dynamic emotional responses.
+
+Multi-Character Worlds  
+Create entire universes where your characters can interact with each other in synced dialogues.
+
+Story & Roleplay Mode  
+Dive into immersive storytelling, roleplay)
 
 st.subheader("1️⃣ TARGET DATA UPLOAD")
 uploaded_file = st.file_uploader("Upload Reference Character", type=["jpg", "jpeg", "png"])
