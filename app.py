@@ -11,7 +11,7 @@ APP_DESCRIPTION = "Generate consistent character variations in a futuristic 3D w
 
 # 1. PAGE SETUP (Must be the first Streamlit command)
 st.set_page_config(
-    page_title="CharacterSync AI",
+    page_title="CharacterSync AI Sample",
     layout="wide",
     initial_sidebar_state="expanded"
 )
